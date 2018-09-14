@@ -1,0 +1,2 @@
+module Ajax::ScopeSelectionsHelper
+end
