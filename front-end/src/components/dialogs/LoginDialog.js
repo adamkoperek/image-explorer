@@ -28,7 +28,8 @@ class LoginDialog extends Component {
   }
 
   handleClickOpen = () => {
-    this.setState({dialogIsOpen: true});
+    // this.setState({dialogIsOpen: true});
+    this.props.login('adam', 'koperek');
   };
 
   handleClose = () => {
@@ -45,8 +46,6 @@ class LoginDialog extends Component {
 
     const {username, password} = this.state.credentials;
     this.props.login(username, password);
-
-    // this.setState({dialogIsOpen: false, credentials: {username: '', password: ''}});
   };
 
   render() {

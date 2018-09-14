@@ -23,7 +23,7 @@ class Ajax::DirectoriesController < ApplicationController
     if @directory == nil
       render json: {error: 'no directory selected'}
     else
-      @directories = @directory.split('/');
+      @directories = @directory.gsub('\\', '/').split('/');
       create_directories_from_path(nil, @directories)
       render json: {path: @directories}
     end

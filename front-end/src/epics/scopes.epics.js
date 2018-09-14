@@ -1,9 +1,9 @@
 import {ofType} from "redux-observable";
-import {CREATE_SCOPE, GET_SCOPES} from "../actions/types";
+import {CREATE_SCOPE, GET_SCOPES, SET_CURRENT_SCOPE} from "../actions/types";
 import {of} from "rxjs";
 import {catchError, map, mergeMap} from "rxjs/operators";
-import {getScopes, createScope} from '../services/scopes.service'
-import {getScopesSuccess, createScopeSuccess} from "../actions/scopes.actions";
+import {getScopes, createScope, setCurrentScope} from '../services/scopes.service'
+import {getScopesSuccess, createScopeSuccess, setCurrentScopeSuccess, setCurrentScopeError} from "../actions/scopes.actions";
 
 const getScopesEpic = (action$, store) => action$.pipe(
   ofType(GET_SCOPES),
@@ -24,7 +24,16 @@ const createScopeEpic = (action$, store) => action$.pipe(
   ))
 );
 
+const selectScopeEpic = (action$, store) => action$.pipe(
+  ofType(SET_CURRENT_SCOPE),
+  mergeMap((action) => setCurrentScope(action.payload.id, action.payload.name, store.value.auth.user.jwt).pipe(
+    map(() => setCurrentScopeSuccess(action.payload)),
+    catchError(() => of(setCurrentScopeError()))
+  ))
+);
+
 export default [
   getScopesEpic,
-  createScopeEpic
+  createScopeEpic,
+  selectScopeEpic
 ];

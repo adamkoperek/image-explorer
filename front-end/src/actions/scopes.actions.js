@@ -1,4 +1,14 @@
-import {GET_SCOPES, GET_SCOPES_SUCCESS, CREATE_SCOPE, CREATE_SCOPE_SUCCESS, REMOVE_SCOPE, REMOVE_SCOPE_SUCCESS, SET_CURRENT_SCOPE} from "./types";
+import {
+  GET_SCOPES,
+  GET_SCOPES_SUCCESS,
+  CREATE_SCOPE,
+  CREATE_SCOPE_SUCCESS,
+  REMOVE_SCOPE,
+  REMOVE_SCOPE_SUCCESS,
+  SET_CURRENT_SCOPE,
+  SET_CURRENT_SCOPE_SUCCESS,
+  SET_CURRENT_SCOPE_ERROR
+} from "./types";
 
 export const getScopes = () => ({
   type: GET_SCOPES
@@ -30,4 +40,13 @@ export const removeScopeSuccess = () => ({
 export const setCurrentScope = (scope) => ({
   type: SET_CURRENT_SCOPE,
   payload: scope
+});
+
+export const setCurrentScopeSuccess = (scope) => ({
+  type: SET_CURRENT_SCOPE_SUCCESS,
+  payload: scope
+});
+
+export const setCurrentScopeError = () => ({
+  type: SET_CURRENT_SCOPE_ERROR
 });

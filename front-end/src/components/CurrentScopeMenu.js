@@ -59,6 +59,7 @@ class CurrentScopeMenu extends Component {
 
   handleSelectScope = (scope) => {
     this.props.setCurrentScope(scope);
+    this.setState({ anchorEl: null });
   };
 
 
@@ -80,7 +81,7 @@ class CurrentScopeMenu extends Component {
           open={Boolean(anchorEl)}
           onClose={this.handleCloseMenu}>
 
-          {this.props.scopes ? this.props.scopes.map((scope, i) => (<MenuItem key={i}onClick={this.handleSelectScope(scope)}>{scope.name}</MenuItem>)) : (<div></div>)}
+          {this.props.scopes ? this.props.scopes.map((scope, i) => (<MenuItem key={i} onClick={() => this.handleSelectScope(scope)}>{scope.name}</MenuItem>)) : (<div></div>)}
           <Divider light />
           <MenuItem onClick={this.handleOpenDialog}>Utwórz przestrzeń</MenuItem>
         </Menu>
@@ -96,7 +97,7 @@ class CurrentScopeMenu extends Component {
               label="Nazwa nowej przestrzeni"
               type="text"
               value={this.state.newScopeName}
-              onChange={this.handleChange('newScopeName')}
+              onChange={() => this.handleChange('newScopeName')}
               fullWidth
             />
           </DialogContent>
