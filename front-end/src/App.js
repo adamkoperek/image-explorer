@@ -3,8 +3,7 @@ import {Provider} from 'react-redux'
 import {withStyles} from '@material-ui/core/styles';
 
 import store from './store'
-import TopBar from './components/TopBar'
-import Concertina from './components/Concertina'
+import {TopBar, Concertina, DirectoryContent} from './components'
 
 import './App.css'
 
@@ -27,6 +26,7 @@ class App extends Component {
         <div className={classes.root}>
           <TopBar/>
           <Concertina/>
+          <DirectoryContent/>
         </div>
       </Provider>
     );

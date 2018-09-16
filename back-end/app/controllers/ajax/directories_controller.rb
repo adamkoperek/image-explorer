@@ -2,8 +2,56 @@ class Ajax::DirectoriesController < ApplicationController
 
 
   def index
-    @directories = Directory.all
-    render json: @directories
+    # empty results where user not logged in or scope not selected
+    render json: {directories: []} unless current_user || current_user.current_scope_id
+    # get current scope
+    @scope = Scope.find(current_user.current_scope_id)
+    # empty results where scope not found
+    render json: {directories: []} unless @scope
+    # # all scope directories
+    # @scopeDirs = @scope.directories
+    # # empty restults where scope has no dirs
+    # render json: {directories: []} unless @scopeDirs
+    #
+    # @roots = []
+    # @scopeDirs.each{|dir|
+    #
+    #   root = {id: dir.id, name: dir.name}
+    #
+    #   while (dir.parent_id != nil)
+    #     parent = Directory.find(dir.parent_id)
+    #     root = {id: parent.id, name: parent.name, children: [root]}
+    #     dir = parent
+    #   end
+    #
+    #   @roots.push(root);
+    # }
+
+
+    @scope_dir_ids = @scope.directories.map{|dir| dir.id}
+    # all root dirs (parent_id is NULL)
+    @allRootsAr = Directory.where(parent_id: nil)
+
+    # puts 'roots:'
+    # @allRootsAr.map{|root|
+    #   puts root.id + ' ' + root.name
+    # }
+
+    @allRoots = @allRootsAr.map{|root|
+      {
+        id: root.id,
+        name: root.name,
+        subDirs: get_sub_dirs(root),
+        selected: false
+      }
+    }
+
+    @allRoots.each{|root|
+      root[:selected] = contains_scope_dir?(root, @scope_dir_ids)
+    }
+
+    render json: @allRoots
+    # render json: @scope.directories.map{|dir| dir.full_path}
   end
 
 
@@ -36,6 +84,41 @@ class Ajax::DirectoriesController < ApplicationController
   end
 
   private
+
+    def get_sub_dirs(parent)
+      @subDirs = Directory.where(parent_id: parent.id)
+
+      @subDirs.map{|subDir|
+        {
+          id: subDir.id,
+          name: subDir.name,
+          parent_id: parent.id,
+          subDirs: get_sub_dirs(subDir),
+          active: false
+        }
+      }
+    end
+
+    def contains_scope_dir?(dir, scope_dir_ids)
+
+      puts "contains_scope_dir? #{dir[:id]} #{dir[:subDirs].map{|s| s[:id]}}"
+
+      # check if subdirectories are in scope or contains scope direcotories
+      found = false
+      if dir[:subDirs]
+        dir[:subDirs].each{|subDir|
+          puts "#{dir[:id]} sub: #{subDir[:id]}"
+          f = contains_scope_dir?(subDir, scope_dir_ids)
+          found = found || f
+        }
+      end
+      dir[:inScope] = scope_dir_ids.include?(dir[:id])
+      dir[:active] = found || dir[:inScope]
+
+      return dir[:active]
+    end
+
+
     def create_directories_from_path(before, currentAndAfter)
 
       puts "create_directories_from_path: #{currentAndAfter}"

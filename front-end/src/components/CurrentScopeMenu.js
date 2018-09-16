@@ -49,6 +49,7 @@ class CurrentScopeMenu extends Component {
   };
 
   handleChange = name => ({target: {value}}) => {
+    console.log(value);
     this.setState({[name]: value});
     console.log(this.state.newScopeName);
   };
@@ -97,7 +98,7 @@ class CurrentScopeMenu extends Component {
               label="Nazwa nowej przestrzeni"
               type="text"
               value={this.state.newScopeName}
-              onChange={() => this.handleChange('newScopeName')}
+              onChange={this.handleChange('newScopeName')}
               fullWidth
             />
           </DialogContent>
