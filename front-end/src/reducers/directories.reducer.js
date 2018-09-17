@@ -1,8 +1,11 @@
-import {} from "../actions/types";
-import {GET_CURRENT_SCOPE_DIRECTORIES_SUCCESS} from "../actions/types";
-import {SET_CURRENT_DIRECTORY} from "../actions/types";
+import {
+  SET_CURRENT_DIRECTORY,
+  GET_CURRENT_SCOPE_DIRECTORIES_SUCCESS,
+  GET_CURRENT_DIRECTORY_CONTENT_SUCCESS
+} from "../actions/types";
 
 const initialState = {
+  currentDirectoryId: null,
   currentDirectory: null,
   directories: [],
 };
@@ -15,6 +18,12 @@ export default function (state = initialState, action) {
         directories: action.payload
       };
     case SET_CURRENT_DIRECTORY:
+      return {
+        ...state,
+        currentDirectoryId: action.payload,
+        currentDirectory: null
+      };
+    case GET_CURRENT_DIRECTORY_CONTENT_SUCCESS:
       return {
         ...state,
         currentDirectory: action.payload

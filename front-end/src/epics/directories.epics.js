@@ -2,11 +2,17 @@ import {ofType} from "redux-observable";
 import {catchError, map, mergeMap} from "rxjs/operators";
 import {of} from "rxjs";
 
-import {addDirectoryToScope, getCurrentScopeDirectories} from "../services/directories.service";
-import {ADD_DIRECTORY_TO_SCOPE, GET_CURRENT_SCOPE_DIRECTORIES} from "../actions/types";
+import {
+  addDirectoryToScope,
+  getCurrentDirectoryContent,
+  getCurrentScopeDirectories
+} from "../services/directories.service";
+import {ADD_DIRECTORY_TO_SCOPE, GET_CURRENT_DIRECTORY_CONTENT, GET_CURRENT_SCOPE_DIRECTORIES} from "../actions/types";
 import {
   addDirectoryToScopeError,
   addDirectoryToScopeSuccess,
+  getCurrentDirectoryContentError,
+  getCurrentDirectoryContentSuccess,
   getCurrentScopeDirectoriesError,
   getCurrentScopeDirectoriesSuccess
 } from "../actions/directories.actions";
@@ -33,7 +39,19 @@ const getCurrentScopeDirectoriesEpic = (action$, store) => action$.pipe(
   ))
 );
 
+const getCurrentDirectoryConentEpic = (action$, store) => action$.pipe(
+  ofType(GET_CURRENT_DIRECTORY_CONTENT),
+  mergeMap(() => getCurrentDirectoryContent(store.value.directories.currentDirectoryId, store.value.auth.user.jwt).pipe(
+    map(({response}) => {
+      if (response.error) return getCurrentDirectoryContentError(response.error);
+      else return getCurrentDirectoryContentSuccess(response);
+    }),
+    catchError(({response}) => of(getCurrentDirectoryContentError(response.error)))
+  ))
+);
+
 export default [
   addDirectoryToScopeEpic,
-  getCurrentScopeDirectoriesEpic
+  getCurrentScopeDirectoriesEpic,
+  getCurrentDirectoryConentEpic
 ];

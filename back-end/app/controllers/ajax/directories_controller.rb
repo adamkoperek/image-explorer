@@ -8,54 +8,66 @@ class Ajax::DirectoriesController < ApplicationController
     @scope = Scope.find(current_user.current_scope_id)
     # empty results where scope not found
     render json: {directories: []} unless @scope
-    # # all scope directories
-    # @scopeDirs = @scope.directories
-    # # empty restults where scope has no dirs
-    # render json: {directories: []} unless @scopeDirs
-    #
-    # @roots = []
-    # @scopeDirs.each{|dir|
-    #
-    #   root = {id: dir.id, name: dir.name}
-    #
-    #   while (dir.parent_id != nil)
-    #     parent = Directory.find(dir.parent_id)
-    #     root = {id: parent.id, name: parent.name, children: [root]}
-    #     dir = parent
-    #   end
-    #
-    #   @roots.push(root);
-    # }
-
 
     @scope_dir_ids = @scope.directories.map{|dir| dir.id}
     # all root dirs (parent_id is NULL)
     @allRootsAr = Directory.where(parent_id: nil)
-
-    # puts 'roots:'
-    # @allRootsAr.map{|root|
-    #   puts root.id + ' ' + root.name
-    # }
 
     @allRoots = @allRootsAr.map{|root|
       {
         id: root.id,
         name: root.name,
         subDirs: get_sub_dirs(root),
-        selected: false
+        active: false
       }
     }
 
     @allRoots.each{|root|
-      root[:selected] = contains_scope_dir?(root, @scope_dir_ids)
+      root[:active] = contains_scope_dir?(root, @scope_dir_ids)
     }
 
     render json: @allRoots
-    # render json: @scope.directories.map{|dir| dir.full_path}
   end
 
 
   def show
+    # empty results where user not logged in or scope not selected
+    render json: {subDirs: [], images: []} unless current_user || current_user.current_scope_id
+
+    # render error where there's no id given
+    render json: {error: 'No directory id given'} unless params[:id]
+
+    # get directory by id
+    directory = Directory.find(params[:id])
+
+    # get all subdirectories
+    subDirs = Dir.glob(directory.full_path + '/*')
+    .select{|f| File.directory? f}
+    .map{|f| {
+      id: nil,
+      in_scope: false,
+      name: f.split('/').last,
+      full_path: f
+    }}
+
+    # find those in scope
+    subDirs.each{|subDir|
+      d = Directory.where(full_path: subDir[:full_path]).first
+      subDir[:id] = d.id unless d.blank?
+      subDir[:in_scope] = !d.blank? && d.scopes.exists?(current_user.current_scope_id)
+    }
+
+    # find all images
+
+    render json: {
+      id: directory.id,
+      parent_id: directory.parent_id,
+      name: directory.name,
+      subDirs: subDirs,
+      images: []}
+
+  rescue ActiveRecord::RecordNotFound
+    render json: {error: 'No directory with given id'} unless @directory
   end
 
   def new

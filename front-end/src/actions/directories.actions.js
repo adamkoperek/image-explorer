@@ -5,7 +5,10 @@ import {
   GET_CURRENT_SCOPE_DIRECTORIES,
   GET_CURRENT_SCOPE_DIRECTORIES_SUCCESS,
   GET_CURRENT_SCOPE_DIRECTORIES_ERROR,
-  SET_CURRENT_DIRECTORY
+  SET_CURRENT_DIRECTORY,
+  GET_CURRENT_DIRECTORY_CONTENT,
+  GET_CURRENT_DIRECTORY_CONTENT_SUCCESS,
+  GET_CURRENT_DIRECTORY_CONTENT_ERROR
 } from "./types";
 
 export const addDirectoryToScope = (directory) => ({
@@ -35,5 +38,17 @@ export const getCurrentScopeDirectoriesError = (error) => ({
 
 export const setCurrentDirectory = (directory) => ({
   type: SET_CURRENT_DIRECTORY,
-  payload: directory
+  payload: directory.id
+});
+
+export const getCurrentDirectoryContent = () => ({
+  type: GET_CURRENT_DIRECTORY_CONTENT
+});
+export const getCurrentDirectoryContentSuccess = (content) => ({
+  type: GET_CURRENT_DIRECTORY_CONTENT_SUCCESS,
+  payload: content
+});
+export const getCurrentDirectoryContentError = (error) => ({
+  type: GET_CURRENT_DIRECTORY_CONTENT_ERROR,
+  payload: error
 });

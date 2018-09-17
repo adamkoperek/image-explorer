@@ -7,3 +7,7 @@ export const addDirectoryToScope = (directory, jwt) => post(
 export const getCurrentScopeDirectories = (jwt) => get(
   'ajax/directories', jwt
 );
+
+export const getCurrentDirectoryContent = (directoryId, jwt) => get(
+  'ajax/directories/' + directoryId, jwt
+);
