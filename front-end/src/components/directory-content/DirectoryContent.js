@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {withStyles} from '@material-ui/core/styles'
 import {Typography} from '@material-ui/core'
 import {getCurrentDirectoryContent} from '../../actions/directories.actions'
+import {ImageGrid} from '../image-grid'
 
 
 class DirectoryContent extends Component {
@@ -15,7 +16,6 @@ class DirectoryContent extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {}
   }
 
@@ -25,9 +25,9 @@ class DirectoryContent extends Component {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Typography variant="title">{currentDirectory.name}:</Typography>
-          {currentDirectory.images.map(({id, file_name}) =>
-              <div key={id}>{file_name}</div>
-          )}
+        <div className={classes.directoryContentScrollable}>
+          <ImageGrid images={currentDirectory.images}/>
+        </div>
       </main>
     ));
 
@@ -45,6 +45,11 @@ const styles = (theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
+  },
+  directoryContentScrollable: {
+    overflowY: 'auto',
+    width: '100%',
+    height: 'calc(100% - 100px)'
   }
 });
 
