@@ -3,7 +3,9 @@ import {Provider} from 'react-redux'
 import {withStyles} from '@material-ui/core/styles';
 
 import store from './store'
-import {TopBar, Concertina, DirectoryContent} from './components'
+import {DirectoryContent} from './components/directory-content'
+import {Concertina} from './components/concertina'
+import {TopBar} from './components/top-bar'
 
 import './App.css'
 

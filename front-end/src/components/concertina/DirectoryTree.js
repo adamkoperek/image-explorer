@@ -7,7 +7,7 @@ import {withStyles} from '@material-ui/core/styles'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 
-import {getCurrentScopeDirectories, setCurrentDirectory} from "../actions/directories.actions";
+import {getCurrentScopeDirectories, setCurrentDirectory} from "../../actions/directories.actions";
 
 class DirectoryTree extends Component {
 

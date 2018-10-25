@@ -58,13 +58,15 @@ class Ajax::DirectoriesController < ApplicationController
     }
 
     # find all images
+    images = directory.images
 
     render json: {
       id: directory.id,
       parent_id: directory.parent_id,
       name: directory.name,
       subDirs: subDirs,
-      images: []}
+      images: images
+    }
 
   rescue ActiveRecord::RecordNotFound
     render json: {error: 'No directory with given id'} unless @directory

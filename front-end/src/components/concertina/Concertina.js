@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Drawer} from '@material-ui/core'
 import {withStyles} from '@material-ui/core/styles'
-import {AddDirectoryToScopeDialog} from './dialogs'
+import {AddDirectoryToScopeDialog} from '../dialogs/index'
 import {DirectoryTree} from './index'
 
 const styles = theme => ({

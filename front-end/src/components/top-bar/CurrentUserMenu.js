@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { IconButton, Menu, MenuItem, Divider } from '@material-ui/core'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 
-import { logout } from '../actions/auth.actions'
+import { logout } from '../../actions/auth.actions'
 
 class CurrentUserMenu extends Component {
 

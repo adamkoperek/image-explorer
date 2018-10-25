@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getScopes, createScope, setCurrentScope} from '../actions/scopes.actions'
+import {getScopes, createScope, setCurrentScope} from '../../actions/scopes.actions'
 import {
   Button,
   Dialog,

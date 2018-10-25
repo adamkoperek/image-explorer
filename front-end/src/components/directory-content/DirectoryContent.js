@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withStyles} from '@material-ui/core/styles'
 import {Typography} from '@material-ui/core'
-import {getCurrentDirectoryContent} from '../actions/directories.actions'
+import {getCurrentDirectoryContent} from '../../actions/directories.actions'
 
 
 class DirectoryContent extends Component {
@@ -25,6 +25,9 @@ class DirectoryContent extends Component {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Typography variant="title">{currentDirectory.name}:</Typography>
+          {currentDirectory.images.map(({id, file_name}) =>
+              <div key={id}>{file_name}</div>
+          )}
       </main>
     ));
 
