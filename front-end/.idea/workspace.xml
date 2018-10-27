@@ -191,7 +191,7 @@
       <path value="$PROJECT_DIR$/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1874" />
@@ -336,7 +336,7 @@
       <workItem from="1536942453402" duration="21592000" />
       <workItem from="1539929959098" duration="5000" />
       <workItem from="1540459511650" duration="7940000" />
-      <workItem from="1540476743483" duration="1345000" />
+      <workItem from="1540476743483" duration="1945000" />
     </task>
     <task id="LOCAL-00001" summary="services, login errors">
       <created>1536828229853</created>
@@ -363,10 +363,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="103847000" />
+    <option name="totallyTimeSpent" value="104447000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.7283237" visible="true" weight="0.16482359" />
