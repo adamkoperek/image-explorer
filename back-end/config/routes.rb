@@ -12,5 +12,6 @@ Rails.application.routes.draw do
 
   get 'state/index'
   post '/login', to: "sessions#create"
+  get 'thumbnails/:id', to: 'thumbnails#show'
 
 end
