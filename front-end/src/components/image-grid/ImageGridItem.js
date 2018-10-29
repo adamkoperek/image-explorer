@@ -13,11 +13,17 @@ class ImageGridItem extends Component {
     this.state = {}
   }
 
+  onImageClick = (imageId) => {
+    if (this.props.onImageClick) {
+      this.props.onImageClick(imageId);
+    }
+  };
+
   render() {
     const {classes, image: {file_name, id}} = this.props;
     const file_url = 'http://localhost:3000/thumbnails/' + id;
     return (
-      <GridListTile className={classes.gridListTile}>
+      <GridListTile className={classes.gridListTile} onClick={() => this.onImageClick(id)}>
           <div className={classes.tileImageContainer}>
             <img className={classes.tileImage} src={file_url} alt={file_name}/>
           </div>

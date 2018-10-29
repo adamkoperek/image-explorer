@@ -58,11 +58,7 @@ class Ajax::DirectoriesController < ApplicationController
     }
 
     # find all images
-    images = directory.images.map do |image|
-      image.full_path = directory.full_path + '/' + image.file_name
-      image.full_path.gsub!('D:', 'http://localhost:3005').gsub!('\\', '/')
-      image
-    end
+    images = directory.images
 
     render json: {
       id: directory.id,

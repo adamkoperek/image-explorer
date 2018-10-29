@@ -19,6 +19,10 @@ class DirectoryContent extends Component {
     this.state = {}
   }
 
+  onGridImageClick = (imageId) => {
+    console.log('directory-content.on-grid-image-click', imageId);
+  };
+
   render() {
     const { classes, currentDirectory } = this.props;
     return ( currentDirectory && (
@@ -26,7 +30,7 @@ class DirectoryContent extends Component {
         <div className={classes.toolbar} />
         <Typography variant="title">{currentDirectory.name}:</Typography>
         <div className={classes.directoryContentScrollable}>
-          <ImageGrid images={currentDirectory.images}/>
+          <ImageGrid images={currentDirectory.images} onImageClick={this.onGridImageClick}/>
         </div>
       </main>
     ));

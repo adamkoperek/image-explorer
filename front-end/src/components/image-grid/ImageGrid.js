@@ -11,15 +11,21 @@ class ImageGrid extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {};
   }
+
+  onImageClick = (imageId) => {
+    if (this.props.onImageClick) {
+      this.props.onImageClick(imageId);
+    }
+  };
 
   render() {
     const { images, classes } = this.props;
     return (
       <GridList className={classes.gridList} cellHeight={200}>
         {images.map(
-          image => (<ImageGridItem key={image.id} image={image}/>)
+          image => (<ImageGridItem key={image.id} image={image} onImageClick={this.onImageClick}/>)
         )}
       </GridList>
     );
