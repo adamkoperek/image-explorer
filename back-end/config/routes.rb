@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
     resources :directories
     resources :scopes, only: [:index, :create, :destroy]
-    resources :images, only: [:index]
+    resources :images, only: [:index, :show]
   end
 
   get 'state/index'

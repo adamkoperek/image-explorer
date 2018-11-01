@@ -39,7 +39,7 @@ const getCurrentScopeDirectoriesEpic = (action$, store) => action$.pipe(
   ))
 );
 
-const getCurrentDirectoryConentEpic = (action$, store) => action$.pipe(
+const getCurrentDirectoryContentEpic = (action$, store) => action$.pipe(
   ofType(GET_CURRENT_DIRECTORY_CONTENT),
   mergeMap(() => getCurrentDirectoryContent(store.value.directories.currentDirectoryId, store.value.auth.user.jwt).pipe(
     map(({response}) => {
@@ -53,5 +53,5 @@ const getCurrentDirectoryConentEpic = (action$, store) => action$.pipe(
 export default [
   addDirectoryToScopeEpic,
   getCurrentScopeDirectoriesEpic,
-  getCurrentDirectoryConentEpic
+  getCurrentDirectoryContentEpic
 ];

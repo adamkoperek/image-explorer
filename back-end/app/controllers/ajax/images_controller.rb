@@ -7,4 +7,17 @@ class Ajax::ImagesController < ApplicationController
     render json: images
   end
 
+  def show
+    if params[:id]
+      if Image.exists?(params[:id])
+        image = Image.find(params[:id])
+        render json: image
+      else
+        render json: {error: 'Image with given id not found.'}
+      end
+    else
+      render json: {error: 'No image id given.'}
+    end
+  end
+
 end

@@ -28,6 +28,7 @@ export default function (state = initialState, action) {
         ...state,
         currentDirectory: action.payload
       };
-    default: return state;
+    default:
+      return state;
   }
 }

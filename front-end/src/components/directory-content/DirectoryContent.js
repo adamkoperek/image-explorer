@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {withStyles} from '@material-ui/core/styles'
 import {Typography} from '@material-ui/core'
 import {getCurrentDirectoryContent} from '../../actions/directories.actions'
+import {getCurrentImage} from '../../actions/images.actions'
 import {ImageGrid} from '../image-grid'
 
 
@@ -20,7 +21,8 @@ class DirectoryContent extends Component {
   }
 
   onGridImageClick = (imageId) => {
-    console.log('directory-content.on-grid-image-click', imageId);
+    // console.log('directory-content.on-grid-image-click', imageId);
+    this.props.getCurrentImage(imageId);
   };
 
   render() {
@@ -57,4 +59,4 @@ const styles = (theme) => ({
   }
 });
 
-export default connect(mapStateToProps, {getCurrentDirectoryContent})(withStyles(styles)(DirectoryContent));
+export default connect(mapStateToProps, {getCurrentDirectoryContent, getCurrentImage})(withStyles(styles)(DirectoryContent));
