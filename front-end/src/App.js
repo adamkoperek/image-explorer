@@ -6,6 +6,7 @@ import store from './store'
 import {DirectoryContent} from './components/directory-content'
 import {Concertina} from './components/concertina'
 import {TopBar} from './components/top-bar'
+import {CurrentImage} from './components/current-image'
 
 import './App.css'
 
@@ -29,6 +30,7 @@ class App extends Component {
           <TopBar/>
           <Concertina/>
           <DirectoryContent/>
+          <CurrentImage/>
         </div>
       </Provider>
     );
