@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get 'images/show'
   namespace :ajax do
 
     delete '/scope_selections', to: 'scope_selections#destroy'
@@ -13,5 +14,6 @@ Rails.application.routes.draw do
   get 'state/index'
   post '/login', to: "sessions#create"
   get 'thumbnails/:id', to: 'thumbnails#show'
+  get 'images/:id', to: 'images#show'
 
 end
