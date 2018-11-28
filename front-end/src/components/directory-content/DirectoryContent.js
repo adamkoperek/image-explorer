@@ -30,7 +30,7 @@ class DirectoryContent extends Component {
     return ( currentDirectory && (
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Typography variant="title">{currentDirectory.name}:</Typography>
+        <Typography variant="h6">{currentDirectory.name}:</Typography>
         <div className={classes.directoryContentScrollable}>
           <ImageGrid images={currentDirectory.images} onImageClick={this.onGridImageClick}/>
         </div>

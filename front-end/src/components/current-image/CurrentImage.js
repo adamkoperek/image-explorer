@@ -21,31 +21,35 @@ class CurrentImage extends Component {
 
   render() {
     const {currentImage: {data}, classes} = this.props;
+    if (!data) {
+      return false;
+    }
+
     const file_url = data === null || 'http://localhost:3000/images/' + data.id;
-    return (data &&
-      (<Dialog open={data !== null} classes={{paper: classes.dialogPaper}}>
+    const fileName = data.file_name;
 
-        <DialogTitle className={classes.dialogTitle}>
-          <IconButton className={classes.titleCloseButton} onClick={this.onCancelClick}>
-            <CloseIcon/>
-          </IconButton>
-        </DialogTitle>
+    return (<Dialog open={data !== null} classes={{paper: classes.dialogPaper}}>
+      <DialogTitle className={classes.dialogTitle}>
+        <span className={classes.dialogTitleText}>{fileName}</span>
+        <IconButton className={classes.titleCloseButton} onClick={this.onCancelClick}>
+          <CloseIcon/>
+        </IconButton>
+      </DialogTitle>
 
-        <DialogContent className={classes.dialogContent}>
-          {/*<div className={classes.imageContainer}>image</div>*/}
-          <Grid container spacing={0} className={classes.contentGrid}>
-            <Grid item xs={9} className={classes.imageContainer}>
-              <img className={classes.image} src={file_url} alt={data.file_name}/>
-            </Grid>
-            <Grid item xs={2}>
-              <Typography variant={'title'}>{data.file_name}</Typography>
-            </Grid>
+      <DialogContent className={classes.dialogContent}>
+        {/*<div className={classes.imageContainer}>image</div>*/}
+        <Grid container spacing={0} className={classes.contentGrid}>
+          <Grid item xs={9} className={classes.imageContainer}>
+            <img className={classes.image} src={file_url} alt={fileName}/>
           </Grid>
+          <Grid item xs={2}>
+            <Typography variant="h6">{fileName}</Typography>
+          </Grid>
+        </Grid>
 
 
-        </DialogContent>
-      </Dialog>)
-    );
+      </DialogContent>
+    </Dialog>);
   }
 }
 
@@ -57,6 +61,11 @@ const styles = (theme) => ({
   dialogTitle: {
     backgroundColor: '#222',
     padding: '5px 10px'
+  },
+  dialogTitleText: {
+    display: 'inline-block',
+    color: '#fff',
+    padding: 12
   },
   titleCloseButton: {
     float: 'right',

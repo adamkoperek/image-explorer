@@ -62,7 +62,7 @@ class AddDirectoryToScopeDialog extends Component {
         <Dialog open={this.state.dialogIsOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Dodaj folder do przestrzeni: {currentScope.name}</DialogTitle>
           <DialogContent>
-            {this.props.addError && (<Typography variant="body2" color='error'>{this.props.addError}</Typography>)}
+            {this.props.addError && (<Typography variant="body1" color='error'>{this.props.addError}</Typography>)}
             <TextField
               autoFocus
               margin="dense"

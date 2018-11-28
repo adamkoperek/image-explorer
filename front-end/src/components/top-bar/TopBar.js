@@ -22,7 +22,7 @@ class TopBar extends Component {
 
       <AppBar position="absolute" color="default" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="title" color="inherit" align="left" style={{flex: 1}}>
+          <Typography variant="h6" color="inherit" align="left" style={{flex: 1}}>
             IMAGE EXPLORER
           </Typography>
 

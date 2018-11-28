@@ -90,7 +90,7 @@ class CurrentScopeMenu extends Component {
         <Dialog open={this.state.dialogIsOpen} onClose={this.handleCloseDialog} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Utwórz przestrzeń</DialogTitle>
           <DialogContent>
-            {this.props.loginError && (<Typography variant="body2" color='error'>{this.props.newScopeError}</Typography>)}
+            {this.props.loginError && (<Typography variant="body1" color='error'>{this.props.newScopeError}</Typography>)}
             <TextField
               autoFocus
               margin="dense"

@@ -59,7 +59,7 @@ class LoginDialog extends Component {
         <Dialog open={this.state.dialogIsOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Zaloguj się</DialogTitle>
           <DialogContent>
-            {this.props.loginError && (<Typography variant="body2" color='error'>{this.props.loginError}</Typography>)}
+            {this.props.loginError && (<Typography variant="body1" color='error'>{this.props.loginError}</Typography>)}
             <TextField
               autoFocus
               margin="dense"
