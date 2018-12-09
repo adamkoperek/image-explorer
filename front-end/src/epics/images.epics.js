@@ -1,9 +1,9 @@
 import {ofType} from "redux-observable";
-import {GET_CURRENT_IMAGE} from "../actions/types";
+import {ADD_TAG_TO_IMAGE, GET_CURRENT_IMAGE} from "../actions/types";
 import {catchError, map, mergeMap} from "rxjs/operators";
-import {getCurrentImage} from "../services/images.service";
+import {addTagToImage, getCurrentImage} from "../services/images.service";
 import {of} from "rxjs";
-import {getCurrentImageError, getCurrentImageSuccess} from "../actions/images.actions";
+import {addTagToImageError, addTagToImageSuccess, getCurrentImageError, getCurrentImageSuccess} from "../actions/images.actions";
 
 const getCurrentImageEpic = (action$, store) => action$.pipe(
   ofType(GET_CURRENT_IMAGE),
@@ -16,6 +16,18 @@ const getCurrentImageEpic = (action$, store) => action$.pipe(
   ))
 );
 
+const addTagToImageEpic = (action$, store) => action$.pipe(
+  ofType(ADD_TAG_TO_IMAGE),
+  mergeMap((action) => addTagToImage(action.payload, store.value.auth.user.jwt).pipe(
+    map(({response}) => {
+      if (response.error) return addTagToImageError(response.error);
+      else return addTagToImageSuccess(action.payload);
+    }),
+    catchError(({response}) => of(getCurrentImageError(response.error)))
+  ))
+);
+
 export default [
-  getCurrentImageEpic
+  getCurrentImageEpic,
+  addTagToImageEpic
 ]

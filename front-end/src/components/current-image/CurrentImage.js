@@ -1,9 +1,20 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withStyles} from "@material-ui/core/styles"
-import {Dialog, DialogContent, DialogTitle, Grid, IconButton, Typography} from '@material-ui/core'
+import {
+  Chip,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  TextField
+} from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
-import {unsetCurrentImage} from '../../actions/images.actions'
+import {addTagToImage, removeTagFromImage, unsetCurrentImage} from '../../actions/images.actions'
 
 class CurrentImage extends Component {
 
@@ -12,11 +23,48 @@ class CurrentImage extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      newTag: ''
+    }
   }
 
   onCancelClick = () => {
     this.props.unsetCurrentImage();
+  };
+
+  sizeToString = (size) => {
+    if (!size || isNaN(size)) {
+      return 'N/A';
+    }
+
+    return Math.round(size / 1024) + ' KB';
+  };
+
+  onDeleteChip = (tag) => () => {
+    console.log('delete chip:', tag);
+  };
+
+  onNewTagChange = name => ({target: {value}}) => {
+    this.setState({[name]: value});
+  };
+
+  onKeyPress = ({which}) => {
+    switch(which) {
+      case 10:
+      case 13: {
+        if (this.state.newTag && this.state.newTag.length > 0) {
+          console.log('add new tag:', this.state.newTag);
+          this.props.addTagToImage(this.props.currentImage.id, this.state.newTag);
+          this.setState({newTag: ''});
+        }
+        break;
+      }
+      case 27: {
+        this.setState({newTag: ''});
+        break;
+      }
+      default: {}
+    }
   };
 
   render() {
@@ -26,11 +74,11 @@ class CurrentImage extends Component {
     }
 
     const file_url = data === null || 'http://localhost:3000/images/' + data.id;
-    const fileName = data.file_name;
+    const {file_name, full_path, title, size, tags} = data;
 
     return (<Dialog open={data !== null} classes={{paper: classes.dialogPaper}}>
       <DialogTitle className={classes.dialogTitle}>
-        <span className={classes.dialogTitleText}>{fileName}</span>
+        <span className={classes.dialogTitleText}>{file_name}</span>
         <IconButton className={classes.titleCloseButton} onClick={this.onCancelClick}>
           <CloseIcon/>
         </IconButton>
@@ -40,10 +88,38 @@ class CurrentImage extends Component {
         {/*<div className={classes.imageContainer}>image</div>*/}
         <Grid container spacing={0} className={classes.contentGrid}>
           <Grid item xs={9} className={classes.imageContainer}>
-            <img className={classes.image} src={file_url} alt={fileName}/>
+            <img className={classes.image} src={file_url} alt={file_name}/>
           </Grid>
-          <Grid item xs={2}>
-            <Typography variant="h6">{fileName}</Typography>
+          <Grid item xs={3}>
+            <List>
+              <ListItem>
+                <ListItemText primary="Tytuł:" secondary={title ? title : 'N/A'}/>
+              </ListItem>
+              <ListItem>
+                <ListItemText primary="Nazwa Pliku:" secondary={file_name}/>
+              </ListItem>
+              <ListItem>
+                <ListItemText primary="Ścieżka do Pliku:" secondary={full_path}/>
+              </ListItem>
+              <ListItem>
+                <ListItemText primary="Rozmiar Pliku:" secondary={this.sizeToString(size)}/>
+              </ListItem>
+              <ListItem>
+                <ListItemText primary="Tagi:"/>
+              </ListItem>
+            </List>
+            <div className={classes.chips}>
+              {
+                tags.map((tag, index) => {
+                  return <Chip key={index} label={tag} className={classes.chip} onDelete={this.onDeleteChip(tag)}/>
+                })
+              }
+              <TextField className={classes.chipInput}
+                         type="text" margin="dense"
+                         value={this.state.newTag}
+                         onChange={this.onNewTagChange('newTag')}
+                         onKeyPress={this.onKeyPress}/>
+            </div>
           </Grid>
         </Grid>
 
@@ -96,7 +172,17 @@ const styles = (theme) => ({
     height: '100%',
     width: '100%',
     objectFit: 'contain'
+  },
+  chips: {
+    padding: '0 20px'
+  },
+  chip: {
+    margin: theme.spacing.unit / 2,
+  },
+  chipInput: {
+    width: 100,
+    marginLeft: 5
   }
 });
 
-export default connect(mapStateToProps, {unsetCurrentImage})(withStyles(styles)(CurrentImage));
+export default connect(mapStateToProps, {unsetCurrentImage, addTagToImage, removeTagFromImage})(withStyles(styles)(CurrentImage));

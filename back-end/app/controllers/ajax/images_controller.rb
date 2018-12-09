@@ -11,8 +11,14 @@ class Ajax::ImagesController < ApplicationController
     if params[:id]
       if Image.exists?(params[:id])
         image = Image.find(params[:id])
-        image.full_path = helpers.image_full_path(image)
-        render json: image
+        render json: {
+          id: image.id,
+          title: image.title,
+          file_name: image.file_name,
+          size: image.size,
+          tags: image.tags.map{|tag| tag.value},
+          full_path: helpers.image_full_path(image)
+        }
       else
         render json: {error: 'Image with given id not found.'}
       end

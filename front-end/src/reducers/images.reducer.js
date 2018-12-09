@@ -1,4 +1,5 @@
 import {
+  ADD_TAG_TO_IMAGE_SUCCESS,
   GET_CURRENT_IMAGE,
   GET_CURRENT_IMAGE_ERROR,
   GET_CURRENT_IMAGE_SUCCESS,
@@ -57,6 +58,20 @@ export default function (state = initialState, action) {
           data: null,
           loading: false,
           error: action.payload
+        }
+      };
+
+    case ADD_TAG_TO_IMAGE_SUCCESS:
+      return {
+        ...state,
+        currentImage: {
+          data: {
+            ...state.currentImage.data,
+            tags: [
+              ...state.currentImage.data.tags,
+              action.payload.tag
+            ]
+          }
         }
       };
 
