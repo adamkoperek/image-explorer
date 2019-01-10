@@ -57,7 +57,7 @@ class DirectoryTree extends Component {
   }
 
   handleSelectDirectory(directory) {
-    this.props.setCurrentDirectory(directory);
+    this.props.setCurrentDirectory(directory.id);
   }
 
   render() {

@@ -41,7 +41,8 @@ class CurrentImage extends Component {
   };
 
   onDeleteChip = (tag) => () => {
-    console.log('delete chip:', tag);
+    console.log('delete chip:', tag, this.props.currentImage.id);
+    this.props.removeTagFromImage(this.props.currentImage.id, tag);
   };
 
   onNewTagChange = name => ({target: {value}}) => {
@@ -53,7 +54,7 @@ class CurrentImage extends Component {
       case 10:
       case 13: {
         if (this.state.newTag && this.state.newTag.length > 0) {
-          console.log('add new tag:', this.state.newTag);
+          console.log('add new tag:', this.state.newTag, this.props.currentImage.id);
           this.props.addTagToImage(this.props.currentImage.id, this.state.newTag);
           this.setState({newTag: ''});
         }

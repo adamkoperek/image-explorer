@@ -87,8 +87,8 @@ class Ajax::DirectoriesController < ApplicationController
       render json: {error: 'no directory selected'}
     else
       @directories = @directory.gsub('\\', '/').split('/');
-      create_directories_from_path(nil, @directories)
-      render json: {path: @directories}
+      dirId = create_directories_from_path(nil, @directories)
+      render json: {id: dirId}
     end
   end
 
@@ -97,6 +97,12 @@ class Ajax::DirectoriesController < ApplicationController
 
   def destroy
   end
+
+
+
+
+
+
 
   private
 
@@ -151,9 +157,9 @@ class Ajax::DirectoriesController < ApplicationController
             d.valid?
             puts "Add new root directory #{first}, #{d.valid?}, #{d.errors.to_json}"
             d.save
-            create_directories_from_path(d, currentAndAfter)
+            return create_directories_from_path(d, currentAndAfter)
           else
-            create_directories_from_path(found, currentAndAfter)
+            return create_directories_from_path(found, currentAndAfter)
           end
         else
           puts "Search in #{before.full_path} subdirectories"
@@ -163,9 +169,9 @@ class Ajax::DirectoriesController < ApplicationController
             puts "Add #{before.full_path} subdirectory: #{before.full_path}/#{first}"
             d = Directory.new(:name => first, :full_path => "#{before.full_path}/#{first}", :parent_id => before.id)
             d.save
-            create_directories_from_path(d, currentAndAfter)
+            return create_directories_from_path(d, currentAndAfter)
           else
-            create_directories_from_path(found, currentAndAfter)
+            return create_directories_from_path(found, currentAndAfter)
           end
         end
 
@@ -182,21 +188,33 @@ class Ajax::DirectoriesController < ApplicationController
             # puts Dir.entries(before.full_path)
             # add directory images to images table
             file_names = Dir.glob("#{before.full_path}/*.{jpeg,jpg,png}")
-            puts file_names
             if file_names
               file_names.map{|fn| fn.split('/').last}.each do |file_name|
                 found = Image.where("file_name = ? AND directory_id = ?", file_name, before.id).count > 0
+
                 unless found
+                  # if there's no such directory
                   size = File.size("#{before.full_path}/#{file_name}").to_f
                   i = Image.new(:file_name => file_name, :directory_id => before.id, :size => size)
                   if i.valid?
+                    # if it's a valid object
                     i.save
+                  else
+                    # if it's not a valid object
                   end
+                else
+                  # if directory has found
                 end
               end
+            else
+              # if there's no file names
             end
           else
+            # if current scope id == nil
           end
+
+          return before.id
+        else
         end
       end
     end

@@ -24,8 +24,9 @@ export const addDirectoryToScopeError = (error) => ({
 });
 
 
-export const getCurrentScopeDirectories = () => ({
-  type: GET_CURRENT_SCOPE_DIRECTORIES
+export const getCurrentScopeDirectories = (directoryToSelect) => ({
+  type: GET_CURRENT_SCOPE_DIRECTORIES,
+  payload: {directoryToSelect}
 });
 export const getCurrentScopeDirectoriesSuccess = (directories) => ({
   type: GET_CURRENT_SCOPE_DIRECTORIES_SUCCESS,
@@ -36,9 +37,9 @@ export const getCurrentScopeDirectoriesError = (error) => ({
   payload: error
 });
 
-export const setCurrentDirectory = (directory) => ({
+export const setCurrentDirectory = (directoryId) => ({
   type: SET_CURRENT_DIRECTORY,
-  payload: directory.id
+  payload: directoryId
 });
 
 export const getCurrentDirectoryContent = () => ({

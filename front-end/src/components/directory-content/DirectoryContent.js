@@ -5,6 +5,7 @@ import {Typography} from '@material-ui/core'
 import {getCurrentDirectoryContent} from '../../actions/directories.actions'
 import {getCurrentImage} from '../../actions/images.actions'
 import {ImageGrid} from '../image-grid'
+import {DirectoryGrid} from '../directory-grid'
 
 
 class DirectoryContent extends Component {
@@ -32,11 +33,11 @@ class DirectoryContent extends Component {
         <div className={classes.toolbar} />
         <Typography variant="h6">{currentDirectory.name}:</Typography>
         <div className={classes.directoryContentScrollable}>
+          <DirectoryGrid directories={currentDirectory.subDirs}/>
           <ImageGrid images={currentDirectory.images} onImageClick={this.onGridImageClick}/>
         </div>
       </main>
     ));
-
   }
 }
 

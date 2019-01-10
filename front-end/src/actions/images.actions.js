@@ -1,10 +1,8 @@
 import {
+  GET_CURRENT_IMAGE, GET_CURRENT_IMAGE_ERROR, GET_CURRENT_IMAGE_SUCCESS,
+  UNSET_CURRENT_IMAGE,
   ADD_TAG_TO_IMAGE, ADD_TAG_TO_IMAGE_ERROR, ADD_TAG_TO_IMAGE_SUCCESS,
-  GET_CURRENT_IMAGE,
-  GET_CURRENT_IMAGE_ERROR,
-  GET_CURRENT_IMAGE_SUCCESS,
-  REMOVE_TAG_FROM_IMAGE,
-  UNSET_CURRENT_IMAGE
+  REMOVE_TAG_FROM_IMAGE, REMOVE_TAG_FROM_IMAGE_ERROR, REMOVE_TAG_FROM_IMAGE_SUCCESS
 } from "./types";
 
 export const getCurrentImage = (imageId) => ({
@@ -22,6 +20,7 @@ export const getCurrentImageError = (error) => ({
   payload: error
 });
 
+
 export const unsetCurrentImage = () => ({
   type: UNSET_CURRENT_IMAGE,
   payload: null
@@ -32,12 +31,12 @@ export const unsetCurrentImage = () => ({
 
 export const addTagToImage = (imageId, tag) => ({
   type: ADD_TAG_TO_IMAGE,
-  payload: {image: imageId, tag: tag}
+  payload: {imageId, tag}
 });
 
-export const addTagToImageSuccess = ({imageId, tag}) => ({
+export const addTagToImageSuccess = (tags) => ({
   type: ADD_TAG_TO_IMAGE_SUCCESS,
-  payload: {imageId, tag}
+  payload: {tags}
 });
 
 export const addTagToImageError = (error) => ({
@@ -45,7 +44,18 @@ export const addTagToImageError = (error) => ({
   payload: error
 });
 
+
 export const removeTagFromImage = (imageId, tag) => ({
   type: REMOVE_TAG_FROM_IMAGE,
-  payload: {image: imageId, tag: tag}
+  payload: {imageId, tag}
+});
+
+export const removeTagFromImageSuccess = (tags) => ({
+  type: REMOVE_TAG_FROM_IMAGE_SUCCESS,
+  payload: {tags}
+});
+
+export const removeTagFromImageError = (error) => ({
+  type: REMOVE_TAG_FROM_IMAGE_ERROR,
+  payload: error
 });

@@ -7,3 +7,7 @@ export const getCurrentImage = (imageId, jwt) => get(
 export const addTagToImage = ({imageId, tag}, jwt) => post(
   'ajax/images_tags', JSON.stringify({imageId, tag}), jwt
 );
+
+export const removeTagFromImage = ({imageId, tag}, jwt) => post(
+  'ajax/images_tags/delete', JSON.stringify({imageId, tag}), jwt
+);

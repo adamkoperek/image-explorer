@@ -1,11 +1,11 @@
 import {ofType} from "redux-observable";
-import {catchError, map, mergeMap} from "rxjs/operators";
-import {of} from "rxjs";
+import {catchError, flatMap, map, mergeMap} from "rxjs/operators";
+import {concat, of} from "rxjs";
 
 import {
   addDirectoryToScope,
   getCurrentDirectoryContent,
-  getCurrentScopeDirectories
+  getCurrentScopeDirectoriesService,
 } from "../services/directories.service";
 import {ADD_DIRECTORY_TO_SCOPE, GET_CURRENT_DIRECTORY_CONTENT, GET_CURRENT_SCOPE_DIRECTORIES} from "../actions/types";
 import {
@@ -13,16 +13,21 @@ import {
   addDirectoryToScopeSuccess,
   getCurrentDirectoryContentError,
   getCurrentDirectoryContentSuccess,
+  getCurrentScopeDirectories,
   getCurrentScopeDirectoriesError,
-  getCurrentScopeDirectoriesSuccess
+  getCurrentScopeDirectoriesSuccess,
+  setCurrentDirectory
 } from "../actions/directories.actions";
 
 const addDirectoryToScopeEpic = (action$, store) => action$.pipe(
   ofType(ADD_DIRECTORY_TO_SCOPE),
   mergeMap((action) => addDirectoryToScope(action.payload, store.value.auth.user.jwt).pipe(
-    map(({response}) => {
+    flatMap(({response}) => {
       if (response.error) return addDirectoryToScopeError(response.error);
-      else return addDirectoryToScopeSuccess(response);
+      return concat(
+        of(addDirectoryToScopeSuccess(response)),
+        of(getCurrentScopeDirectories(response.id)) // id of created directory
+      );
     }),
     catchError(({response}) => of(addDirectoryToScopeError(response.error)))
   ))
@@ -30,10 +35,13 @@ const addDirectoryToScopeEpic = (action$, store) => action$.pipe(
 
 const getCurrentScopeDirectoriesEpic = (action$, store) => action$.pipe(
   ofType(GET_CURRENT_SCOPE_DIRECTORIES),
-  mergeMap(() => getCurrentScopeDirectories(store.value.auth.user.jwt).pipe(
-    map(({response}) => {
+  mergeMap((action) => getCurrentScopeDirectoriesService(store.value.auth.user.jwt).pipe(
+    flatMap(({response}) => {
       if (response.error) return getCurrentScopeDirectoriesError(response.error);
-      else return getCurrentScopeDirectoriesSuccess(response);
+      return concat(
+        of(getCurrentScopeDirectoriesSuccess(response)),
+        of(setCurrentDirectory(action.payload.directoryToSelect)) // id of created directory
+      );
     }),
     catchError(({response}) => of(getCurrentScopeDirectoriesError(response.error)))
   ))

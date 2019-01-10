@@ -2,7 +2,7 @@ import {
   ADD_TAG_TO_IMAGE_SUCCESS,
   GET_CURRENT_IMAGE,
   GET_CURRENT_IMAGE_ERROR,
-  GET_CURRENT_IMAGE_SUCCESS,
+  GET_CURRENT_IMAGE_SUCCESS, REMOVE_TAG_FROM_IMAGE_SUCCESS,
   UNSET_CURRENT_IMAGE
 } from '../actions/types'
 
@@ -65,12 +65,22 @@ export default function (state = initialState, action) {
       return {
         ...state,
         currentImage: {
+          ...state.currentImage,
           data: {
             ...state.currentImage.data,
-            tags: [
-              ...state.currentImage.data.tags,
-              action.payload.tag
-            ]
+            tags: action.payload.tags
+          }
+        }
+      };
+
+    case REMOVE_TAG_FROM_IMAGE_SUCCESS:
+      return {
+        ...state,
+        currentImage: {
+          ...state.currentImage,
+          data: {
+            ...state.currentImage.data,
+            tags: action.payload.tags
           }
         }
       };

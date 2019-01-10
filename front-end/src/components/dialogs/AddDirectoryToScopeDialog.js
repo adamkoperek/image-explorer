@@ -42,6 +42,7 @@ class AddDirectoryToScopeDialog extends Component {
   handleAddDirectory = () => {
     if (this.state.directory && this.state.directory !== '') {
       this.props.addDirectoryToScope(this.state.directory);
+      this.setState({dialogIsOpen: false, directory: ''});
     }
   };
 

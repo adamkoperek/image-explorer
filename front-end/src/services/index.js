@@ -1,4 +1,4 @@
-import {ajaxPost, ajaxGet} from "rxjs/internal/observable/dom/AjaxObservable";
+import {ajaxGet, ajaxPost} from "rxjs/internal/observable/dom/AjaxObservable";
 
 export const api = 'http://localhost:3000/';
 export const jsonHeaders = {'Content-type': 'application/json'};
