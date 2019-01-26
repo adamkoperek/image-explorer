@@ -41,7 +41,12 @@ export default function (state = initialState, action) {
 }
 
 
-
+/**
+ * Opens all parents of directory with given id (recursively).
+ * @param directories
+ * @param dirId
+ * @returns {boolean}
+ */
 const openContainingDirectories = (directories, dirId) => {
 
   // if directories array doesn't exist or it is empty it won't contain searched directory so return false
@@ -49,12 +54,17 @@ const openContainingDirectories = (directories, dirId) => {
     return false;
   }
 
+  // close all leaf directories
+  closeAllLeafDirectories(directories);
+
+  // for each directory to check
   for (const directory of directories) {
 
     // check if it is searched directory
     if (directory.id === dirId) {
       // open and return true
       directory.open = true;
+
       return true;
     }
 
@@ -74,4 +84,19 @@ const openContainingDirectories = (directories, dirId) => {
   }
 
   return false;
+};
+
+
+const closeAllLeafDirectories = (directories) => {
+  if (!directories || directories.length === 0) {
+    return;
+  }
+
+  for (const directory of directories) {
+    if (directory.subDirs && directory.subDirs.length > 0) {
+      closeAllLeafDirectories(directory.subDirs);
+    } else {
+      directory.open = false;
+    }
+  }
 };
